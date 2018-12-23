@@ -66,14 +66,14 @@
 
       //test collision murs
 
-      if (hero.y < 0) {
+      if (hero.y+hero.height < 0) {
         hero.y = canvas.height
       }
       if (hero.y > canvas.height) {
         hero.y = 0
       }
 
-      if (hero.x < 0) {
+      if (hero.x+hero.width < 0) {
         hero.x = canvas.width
       }
       if (hero.x > canvas.width) {
