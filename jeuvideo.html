@@ -21,7 +21,7 @@
     accelerationMax = 1
     speedLimit = 15
     friction = 0.95
-    brake=0.2
+    brake = 0.2
 
     hero = {
       x: 0,
@@ -141,7 +141,13 @@
         hero.acceleration.y = 0
       }
     }
-
+    function handleOrientation(event) {
+      var beta = event.beta;
+      var gamma = event.gamma;
+      hero.acceleration.x=gamma*0.2
+      hero.acceleration.y=beta*0.2
+    }
+    window.ondeviceorientation=handleOrientation
     window.onkeyup = keyUp
     window.onkeydown = keyDown
   </script>
