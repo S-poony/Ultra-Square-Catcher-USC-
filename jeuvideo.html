@@ -21,6 +21,7 @@
     accelerationMax = 1
     speedLimit = 15
     friction = 0.95
+    brake=0.2
 
     hero = {
       x: 0,
@@ -66,14 +67,14 @@
 
       //test collision murs
 
-      if (hero.y+hero.height < 0) {
+      if (hero.y + hero.height < 0) {
         hero.y = canvas.height
       }
       if (hero.y > canvas.height) {
         hero.y = 0
       }
 
-      if (hero.x+hero.width < 0) {
+      if (hero.x + hero.width < 0) {
         hero.x = canvas.width
       }
       if (hero.x > canvas.width) {
@@ -124,6 +125,10 @@
       }
       if (evt.key === "ArrowLeft") {
         hero.acceleration.x = -accelerationMax
+      }
+      if (evt.key === "Shift") {
+        hero.speed.x *= brake
+        hero.speed.y *= brake
       }
     }
 
