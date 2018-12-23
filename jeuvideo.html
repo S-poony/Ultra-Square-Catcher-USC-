@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset='UTF-8'>
+<title>Jeu vidéo de Noé</title>
+</head>
+
+<body>
+<canvas width="500" height="500">error</canvas>
+
+
+<script>
+//alert("virus detected")
+
+canvas=document.querySelector("canvas")
+ctx=canvas.getContext("2d")
+
+score=0
+
+hero = {
+  x: 0,
+  y:0,
+  width: 25,
+  height:25,
+  speed:10
+}
+
+reward = {
+  x: 100,
+  y: 100,
+  width: 20,
+  height: 20,
+}
+
+
+function draw() {
+
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+ 
+  ctx.fillStyle = 'green'
+  ctx.fillRect(hero.x, hero.y, hero.width, hero.height)
+ 
+  ctx.fillStyle = 'red'
+  ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
+  
+  ctx.fillStyle='black'
+  ctx.fillText("score: " +score , canvas.width/2,10)
+}
+
+draw()
+
+function collision(r,h){
+  var xin = h.x+h.width>=r.x && h.x<=r.x+r.width,
+      yin = h.y+h.height>=r.y && h.y<=r.y+r.height
+      
+  return xin && yin
+}
+
+function touche(evt) {
+  if(evt.key==="ArrowDown") {
+    hero.y+=hero.speed
+  }
+  if(evt.key==="ArrowUp") {
+    hero.y-=hero.speed
+  }
+  if(evt.key==="ArrowRight") {
+    hero.x+=hero.speed
+  }
+  if(evt.key==="ArrowLeft") {
+    hero.x-=hero.speed
+  }
+  
+  if(collision(reward,hero)){
+    score+=1
+    reward.x=Math.random()*(canvas.width-reward.width)
+    reward.y=Math.random()*(canvas.height-reward.height)
+  }
+  draw()
+
+}
+
+window.onkeydown=touche
+</script>
+</body>
+</html>
