@@ -59,12 +59,12 @@
     function update() {
 
       //distance
-      
-      distance = Math.sqrt( Math.pow(hero.y - ennemi.y, 2) + Math.pow(hero.x - ennemi.x, 2) )
+
+      distance = Math.sqrt(Math.pow(hero.y - ennemi.y, 2) + Math.pow(hero.x - ennemi.x, 2))
 
       //ennemi
-      vy=(hero.y-ennemi.y)*vitesseEnnemi/distance
-      vx=(hero.x-ennemi.x)*vitesseEnnemi/distance
+      vy = (hero.y - ennemi.y) * vitesseEnnemi / distance
+      vx = (hero.x - ennemi.x) * vitesseEnnemi / distance
 
       ennemi.y += vy
       ennemi.x += vx
@@ -116,13 +116,13 @@
       ctx.fillStyle = 'green'
       ctx.fillRect(hero.x, hero.y, hero.width, hero.height)
 
-      ctx.fillStyle = 'red'
+      ctx.fillStyle = 'blue'
       ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
 
       ctx.fillStyle = 'black'
       ctx.fillText("score: " + score, canvas.width / 2, 10)
 
-      ctx.fillStyle = 'yellow'
+      ctx.fillStyle = 'red'
       ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
     }
 
