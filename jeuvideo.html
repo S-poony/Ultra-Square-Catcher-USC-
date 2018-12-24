@@ -22,6 +22,14 @@
     speedLimit = 15
     friction = 0.95
     brake = 0.2
+    vitesseEnnemi = 0.5
+
+    ennemi = {
+      x: 20,
+      y: 20,
+      width: 10,
+      height: 10,
+    }
 
     hero = {
       x: 0,
@@ -49,6 +57,17 @@
 
 
     function update() {
+
+      //distance
+      
+      distance = Math.sqrt( Math.pow(hero.y - ennemi.y, 2) + Math.pow(hero.x - ennemi.x, 2) )
+
+      //ennemi
+      vy=(hero.y-ennemi.y)*vitesseEnnemi/distance
+      vx=(hero.x-ennemi.x)*vitesseEnnemi/distance
+
+      ennemi.y += vy
+      ennemi.x += vx
 
       //acceleration
 
@@ -102,6 +121,9 @@
 
       ctx.fillStyle = 'black'
       ctx.fillText("score: " + score, canvas.width / 2, 10)
+
+      ctx.fillStyle = 'yellow'
+      ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
     }
 
     update()
@@ -144,10 +166,10 @@
     function handleOrientation(event) {
       var beta = event.beta;
       var gamma = event.gamma;
-      hero.acceleration.x=gamma*0.2
-      hero.acceleration.y=beta*0.2
+      hero.acceleration.x = gamma * 0.2
+      hero.acceleration.y = beta * 0.2
     }
-    window.ondeviceorientation=handleOrientation
+    window.ondeviceorientation = handleOrientation
     window.onkeyup = keyUp
     window.onkeydown = keyDown
   </script>
