@@ -77,9 +77,14 @@
       hero.speed.y += hero.acceleration.y
       hero.x += hero.speed.x
       hero.y += hero.speed.y
-      if(hero.acceleration>hero.accelerationMax){
-        hero.acceleration=hero.accelerationMax
+      
+      if(hero.acceleration.x>hero.accelerationMax){
+        hero.acceleration.x=hero.accelerationMax
       }
+       if(hero.acceleration.y>hero.accelerationMax){
+        hero.acceleration.y=hero.accelerationMax
+      }
+
       if (hero.speed.x > speedLimit) {
         hero.speed.x = speedLimit
       }
