@@ -111,7 +111,7 @@
       }
 if(score>=10){
     if(collision(ennemi, hero)){
-      score-=1
+      score-=Math.round(score/10)
       ennemi.x=canvas.width/2
       ennemi.y=canvas.height/2
       hero.x=1
