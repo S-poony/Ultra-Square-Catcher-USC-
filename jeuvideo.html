@@ -77,13 +77,7 @@
       hero.speed.y += hero.acceleration.y
       hero.x += hero.speed.x
       hero.y += hero.speed.y
-      
-      if(hero.acceleration.x>hero.accelerationMax){
-        hero.acceleration.x=hero.accelerationMax
-      }
-       if(hero.acceleration.y>hero.accelerationMax){
-        hero.acceleration.y=hero.accelerationMax
-      }
+     
 
       if (hero.speed.x > speedLimit) {
         hero.speed.x = speedLimit
@@ -194,8 +188,8 @@
     function handleOrientation(event) {
       var beta = event.beta;
       var gamma = event.gamma;
-      hero.acceleration.x = gamma * 0.15
-      hero.acceleration.y = beta * 0.15
+      hero.speed.x = gamma * 0.15
+      hero.speed.y = beta * 0.15
     }
     window.ondeviceorientation = handleOrientation
     window.onkeyup = keyUp
