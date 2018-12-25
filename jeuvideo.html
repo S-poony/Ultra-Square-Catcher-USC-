@@ -104,6 +104,8 @@
 
       if (collision(reward, hero)) {
         score += 1
+        if(score>=10){
+        vitesseEnnemi+=0.1}
         reward.x = Math.random() * (canvas.width - reward.width)
         reward.y = Math.random() * (canvas.height - reward.height)
       }
