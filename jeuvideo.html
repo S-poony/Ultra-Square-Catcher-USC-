@@ -60,11 +60,11 @@
 
       //distance
 
-      distance = Math.sqrt(Math.pow(hero.y - ennemi.y, 2) + Math.pow(hero.x - ennemi.x, 2))
+      var distance = Math.sqrt(Math.pow(hero.y - ennemi.y, 2) + Math.pow(hero.x - ennemi.x, 2))
 
       //ennemi
-      vy = (hero.y - ennemi.y) * vitesseEnnemi / distance
-      vx = (hero.x - ennemi.x) * vitesseEnnemi / distance
+      var vy = (hero.y - ennemi.y) * vitesseEnnemi / distance
+      var vx = (hero.x - ennemi.x) * vitesseEnnemi / distance
 
       ennemi.y += vy
       ennemi.x += vx
