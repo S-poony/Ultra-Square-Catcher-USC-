@@ -25,8 +25,8 @@
     vitesseEnnemi = 0.5
 
     ennemi = {
-      x: 20,
-      y: 20,
+      x: canvas.width/2,
+      y: canvas.height/2,
       width: 10,
       height: 10,
     }
@@ -66,8 +66,10 @@
       var vy = (hero.y - ennemi.y) * vitesseEnnemi / distance
       var vx = (hero.x - ennemi.x) * vitesseEnnemi / distance
 
+      if(score>=10){
       ennemi.y += vy
       ennemi.x += vx
+      }
 
       //acceleration
 
@@ -122,8 +124,10 @@
       ctx.fillStyle = 'black'
       ctx.fillText("score: " + score, canvas.width / 2, 10)
 
+      if (score>=10){
       ctx.fillStyle = 'red'
       ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
+      }
     }
 
     update()
