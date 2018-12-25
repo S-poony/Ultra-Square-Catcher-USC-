@@ -109,6 +109,16 @@
         reward.x = Math.random() * (canvas.width - reward.width)
         reward.y = Math.random() * (canvas.height - reward.height)
       }
+if(score>=10){
+    if(collision(ennemi, hero)){
+      score-=1
+      ennemi.x=canvas.width/2
+      ennemi.y=canvas.height/2
+      hero.x=1
+      hero.y=1
+    }
+}
+
       draw()
       requestAnimationFrame(update)
     }
