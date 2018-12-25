@@ -114,6 +114,9 @@ if(score>=10){
       score-=Math.round(score/10)
       ennemi.x=canvas.width/2
       ennemi.y=canvas.height/2
+     if (vitesseEnnemi>0.5){
+       vitesseEnnemi-=0.1
+     }
       hero.x=1
       hero.y=1
     }
