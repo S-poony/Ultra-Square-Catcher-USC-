@@ -188,8 +188,8 @@
     function handleOrientation(event) {
       var beta = event.beta;
       var gamma = event.gamma;
-      hero.speed.x = gamma * 0.5
-      hero.speed.y = beta * 0.5
+      hero.acceleration.x = gamma * 0.1
+      hero.acceleration.y = beta * 0.1
     }
     window.ondeviceorientation = handleOrientation
     window.onkeyup = keyUp
