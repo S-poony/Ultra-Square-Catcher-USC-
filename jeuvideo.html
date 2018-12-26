@@ -24,6 +24,7 @@
     friction = 0.95
     brake = 0.2
     vitesseEnnemi = 0.5
+    spawn=0
 
     ennemi = {
       x: canvas.width/2,
@@ -55,6 +56,12 @@
       height: 20,
     }
 
+    powerUp ={
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      width:15,
+      height:15,
+    }
 
 
     function update() {
@@ -105,12 +112,16 @@
         hero.x = 0
       }
 
+  //collisions
       if (collision(reward, hero)) {
         score += 1
         if(score>=10){
         vitesseEnnemi+=0.1}
         reward.x = Math.random() * (canvas.width - reward.width)
         reward.y = Math.random() * (canvas.height - reward.height)
+          if (spawn<0.8){
+         spawn= Math.random()
+         }
             }
       if(score>=10){
          if(collision(ennemi, hero)){
@@ -122,7 +133,13 @@
             hero.x=1
             hero.y=1 }
       }
-
+        if(collision(powerUp, hero)){
+            score+=5
+            powerUp.x = Math.random() * (canvas.width - powerUp.width)
+            powerUp.y = Math.random() * (canvas.height - powerUp.height)
+             spawn= Math.random()
+        }
+      
       draw()
       requestAnimationFrame(update)
     }
@@ -143,6 +160,10 @@
       if (score>=10){
       ctx.fillStyle = 'red'
       ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
+        if(spawn>0.8){
+          ctx.fillStyle = 'cyan'
+          ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
+        }
       }
     }
 
