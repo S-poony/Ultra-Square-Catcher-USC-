@@ -25,6 +25,7 @@
     brake = 0.2
     vitesseEnnemi = 0.5
     spawn=0
+    powerUpSpeed = 0.3
 
     ennemi = {
       x: canvas.width/2,
@@ -61,22 +62,37 @@
       y:Math.random()*canvas.height,
       width:15,
       height:15,
+      speed:0.3
     }
-
 
     function update() {
 
       //distance
 
-      var distance = Math.sqrt(Math.pow(hero.y - ennemi.y, 2) + Math.pow(hero.x - ennemi.x, 2))
+      function distance(hy, hx, ey, ex){
+     return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
+     }
 
+
+      var norme =distance (hero.y, hero.x, ennemi.y, ennemi.x)
+      
       //ennemi
-      var vy = (hero.y - ennemi.y) * vitesseEnnemi / distance
-      var vx = (hero.x - ennemi.x) * vitesseEnnemi / distance
-
+      var vy = (hero.y - ennemi.y) * vitesseEnnemi / norme
+      var vx = (hero.x - ennemi.x) * vitesseEnnemi / norme
+    
       if(score>=10){
       ennemi.y += vy
       ennemi.x += vx
+      }
+    
+      //powerUp
+    var normePowerUp =distance(hero.y,hero.x, powerUp.y, powerUp.x)
+      var vpy = -( (hero.y - powerUp.y) * powerUpSpeed / norme )
+      var vpx = -( (hero.x - powerUp.x) * powerUpSpeed / norme )
+
+      if(spawn>0.8){
+        powerUp.y+= vpy
+        powerUp.x+= vpx
       }
 
       //acceleration
