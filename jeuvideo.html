@@ -64,6 +64,9 @@
       height:15,
       speed:0.3
     }
+  function distance(hy, hx, ey, ex){
+     return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
+     }
 
     function update() {
 
@@ -85,16 +88,7 @@
       ennemi.x += vx
       }
     
-      //powerUp
-    var normePowerUp =distance(hero.y,hero.x, powerUp.y, powerUp.x)
-      var vpy = -( (hero.y - powerUp.y) * powerUpSpeed / norme )
-      var vpx = -( (hero.x - powerUp.x) * powerUpSpeed / norme )
-
-      if(spawn>0.8){
-        powerUp.y+= vpy
-        powerUp.x+= vpx
-      }
-
+    
       //acceleration
 
       hero.speed.x += hero.acceleration.x
