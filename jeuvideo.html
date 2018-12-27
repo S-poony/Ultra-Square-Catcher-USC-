@@ -23,7 +23,7 @@
     speedLimit = 15
     friction = 0.95
     brake = 0.2
-    vitesseEnnemi = 0.5
+    vitesseEnnemi = 0
     spawn=0
     powerUpSpeed = 0.3
 
@@ -86,6 +86,7 @@
       if(score>=10){
       ennemi.y += vy
       ennemi.x += vx
+      vitesseEnnemi=score/20
       }
     
     
@@ -125,8 +126,6 @@
   //collisions
       if (collision(reward, hero)) {
         score += 1
-        if(score>=10){
-        vitesseEnnemi+=0.1}
         reward.x = Math.random() * (canvas.width - reward.width)
         reward.y = Math.random() * (canvas.height - reward.height)
           if (spawn<0.8){
@@ -139,7 +138,6 @@
             score-=Math.round(score/10)
             ennemi.x=canvas.width/2
             ennemi.y=canvas.height/2
-            vitesseEnnemi-=0.1
             hero.x=1
             hero.y=1 }
       }
