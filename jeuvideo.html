@@ -141,13 +141,14 @@
             hero.x=1
             hero.y=1 }
       }
-        if(collision(powerUp, hero)){
-            score+=5
-            powerUp.x = Math.random() * (canvas.width - powerUp.width)
-            powerUp.y = Math.random() * (canvas.height - powerUp.height)
-             spawn= Math.random()
-        }
-      
+            if(spawn>0.8){
+              if(collision(powerUp, hero)){
+                  score+=5
+                  powerUp.x = Math.random() * (canvas.width - powerUp.width)
+                  powerUp.y = Math.random() * (canvas.height - powerUp.height)
+                  spawn= Math.random()
+              }
+          }
       draw()
       requestAnimationFrame(update)
     }
@@ -168,10 +169,10 @@
       if (score>=10){
       ctx.fillStyle = 'red'
       ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
-        if(spawn>0.8){
+        }
+      if(spawn>0.8){
           ctx.fillStyle = 'cyan'
           ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
-        }
       }
     }
 
