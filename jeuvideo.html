@@ -26,6 +26,8 @@
     vitesseEnnemi = 0
     spawn=0
     powerUpSpeed = 0.3
+    adaptationEnnemi=20
+    PowerUpspawnRate=0.8
 
     ennemi = {
       x: canvas.width/2,
@@ -53,8 +55,8 @@
     reward = {
       x: 100,
       y: 100,
-      width: 20,
-      height: 20,
+      width: adaptationEnnemi,
+      height: adaptationEnnemi,
     }
 
     powerUp ={
@@ -86,7 +88,7 @@
       if(score>=10){
       ennemi.y += vy
       ennemi.x += vx
-      vitesseEnnemi=score/20
+      vitesseEnnemi=score/adaptationEnnemi
       }
     
     
@@ -128,7 +130,7 @@
         score += 1
         reward.x = Math.random() * (canvas.width - reward.width)
         reward.y = Math.random() * (canvas.height - reward.height)
-          if (spawn<0.8){
+          if (spawn<PowerUpspawnRate){
          spawn= Math.random()
          }
             }
@@ -141,7 +143,7 @@
             hero.x=1
             hero.y=1 }
       }
-            if(spawn>0.8){
+            if(spawn>PowerUpspawnRate){
               if(collision(powerUp, hero)){
                   score+=5
                   powerUp.x = Math.random() * (canvas.width - powerUp.width)
@@ -170,7 +172,7 @@
       ctx.fillStyle = 'red'
       ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
         }
-      if(spawn>0.8){
+      if(spawn>PowerUpspawnRate){
           ctx.fillStyle = 'cyan'
           ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
       }
