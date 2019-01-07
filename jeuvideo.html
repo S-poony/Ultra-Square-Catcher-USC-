@@ -7,8 +7,7 @@
 </head>
 
 <body>
-  <canvas width= "500"
-   height="500" >error</canvas>
+  <canvas width="500" height="500">error</canvas>
 
 
   <script>
@@ -24,16 +23,16 @@
     friction = 0.95
     brake = 0.2
     vitesseEnnemi = 0
-    spawn=0
+    spawn = 0
     powerUpSpeed = 0.3
-    adaptationEnnemi=20
-    PowerUpspawnRate=0.8
+    adaptationEnnemi = 20
+    PowerUpspawnRate = 0.8
 
-    window.screen.lockOrientation(portrait-primary)
+    window.screen.lockOrientation(portrait - primary)
 
     ennemi = {
-      x: canvas.width/2,
-      y: canvas.height/2,
+      x: canvas.width / 2,
+      y: canvas.height / 2,
       width: 15,
       height: 15,
     }
@@ -61,46 +60,46 @@
       height: adaptationEnnemi,
     }
 
-    powerUp ={
-      x:Math.random()*canvas.width,
-      y:Math.random()*canvas.height,
-      width:10,
-      height:10,
-      speed:0.3
+    powerUp = {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      width: 10,
+      height: 10,
+      speed: 0.3
     }
-  function distance(hy, hx, ey, ex){
-     return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
-     }
+    function distance(hy, hx, ey, ex) {
+      return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
+    }
 
     function update() {
 
       //distance
 
-      function distance(hy, hx, ey, ex){
-     return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
-     }
+      function distance(hy, hx, ey, ex) {
+        return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
+      }
 
 
-      var norme =distance (hero.y, hero.x, ennemi.y, ennemi.x)
-      
+      var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
+
       //ennemi
       var vy = (hero.y - ennemi.y) * vitesseEnnemi / norme
       var vx = (hero.x - ennemi.x) * vitesseEnnemi / norme
-    
-      if(score>=10){
-      ennemi.y += vy
-      ennemi.x += vx
-      vitesseEnnemi=score/adaptationEnnemi
+
+      if (score >= 10) {
+        ennemi.y += vy
+        ennemi.x += vx
+        vitesseEnnemi = score / adaptationEnnemi
       }
-    
-    
+
+
       //acceleration
 
       hero.speed.x += hero.acceleration.x
       hero.speed.y += hero.acceleration.y
       hero.x += hero.speed.x
       hero.y += hero.speed.y
-     
+
 
       if (hero.speed.x > speedLimit) {
         hero.speed.x = speedLimit
@@ -127,32 +126,33 @@
         hero.x = 0
       }
 
-  //collisions
+      //collisions
       if (collision(reward, hero)) {
         score += 1
         reward.x = Math.random() * (canvas.width - reward.width)
         reward.y = Math.random() * (canvas.height - reward.height)
-          if (spawn<PowerUpspawnRate){
-         spawn= Math.random()
-         }
-            }
-      if(score>=10){
-         if(collision(ennemi, hero)){
-
-            score-=Math.round(score/10)
-            ennemi.x=canvas.width/2
-            ennemi.y=canvas.height/2
-            hero.x=1
-            hero.y=1 }
+        if (spawn < PowerUpspawnRate) {
+          spawn = Math.random()
+        }
       }
-            if(spawn>PowerUpspawnRate){
-              if(collision(powerUp, hero)){
-                  score+=5
-                  powerUp.x = Math.random() * (canvas.width - powerUp.width)
-                  powerUp.y = Math.random() * (canvas.height - powerUp.height)
-                  spawn= Math.random()
-              }
-          }
+      if (score >= 10) {
+        if (collision(ennemi, hero)) {
+
+          score -= Math.round(score / 10)
+          ennemi.x = canvas.width / 2
+          ennemi.y = canvas.height / 2
+          hero.x = 1
+          hero.y = 1
+        }
+      }
+      if (spawn > PowerUpspawnRate) {
+        if (collision(powerUp, hero)) {
+          score += 5
+          powerUp.x = Math.random() * (canvas.width - powerUp.width)
+          powerUp.y = Math.random() * (canvas.height - powerUp.height)
+          spawn = Math.random()
+        }
+      }
       draw()
       requestAnimationFrame(update)
     }
@@ -170,13 +170,13 @@
       ctx.fillStyle = 'black'
       ctx.fillText("score: " + score, canvas.width / 2, 10)
 
-      if (score>=10){
-      ctx.fillStyle = 'red'
-      ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
-        }
-      if(spawn>PowerUpspawnRate){
-          ctx.fillStyle = 'cyan'
-          ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
+      if (score >= 10) {
+        ctx.fillStyle = 'red'
+        ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
+      }
+      if (spawn > PowerUpspawnRate) {
+        ctx.fillStyle = 'cyan'
+        ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
       }
     }
 
