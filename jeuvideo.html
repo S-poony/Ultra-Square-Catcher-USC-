@@ -16,7 +16,13 @@
 
     canvas.onclick = function () {
       // Passage en plein écran lorsque l'on clique sur le canvas
-      canvas.requestFullscreen();
+      canvas.requestFullscreen().then(function () {
+        // Verrouillage de l'orientation 'portrait' lorsque l'on passe en plein écran
+        screen.lockOrientationUniversal = screen.lockOrientation ||
+          screen.mozLockOrientation ||
+          screen.msLockOrientation;
+        screen.lockOrientationUniversal("portrait-primary")
+      })
     }
 
     //variables
