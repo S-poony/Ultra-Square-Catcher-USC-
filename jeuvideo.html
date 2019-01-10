@@ -24,7 +24,7 @@
         screen.lockOrientationUniversal("portrait-primary")
       })
     }
-
+    ctx.font="15px sans-serif"
     //variables
     score = 0
     accelerationMax = 1
@@ -176,7 +176,7 @@
       ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
 
       ctx.fillStyle = 'black'
-      ctx.fillText("score: " + score, canvas.width / 2, 10)
+      ctx.fillText("score: " + score, canvas.width / 2, 20)
 
       if (score >= 10) {
         ctx.fillStyle = 'red'
