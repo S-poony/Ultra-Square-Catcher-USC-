@@ -9,9 +9,8 @@
 <body style="text-align: center">
   <canvas width="700" height="700">error</canvas>
 
-
   <script>
-    (function() {
+    (function () {
       canvas = document.querySelector("canvas")
       ctx = canvas.getContext("2d")
 
@@ -21,11 +20,12 @@
           // Verrouillage de l'orientation 'portrait' lorsque l'on passe en plein écran
           screen.lockOrientationUniversal = screen.lockOrientation ||
             screen.mozLockOrientation ||
-            screen.msLockOrientation;
+            screen.msLockOrientation
           screen.lockOrientationUniversal("portrait-primary")
         })
       }
-      ctx.font="15px sans-serif"
+
+      ctx.font = "15px sans-serif"
       //variables
       score = 0
       accelerationMax = 1
@@ -58,7 +58,6 @@
           x: 0,
           y: 0,
         }
-
       }
 
       reward = {
@@ -75,18 +74,16 @@
         height: 10,
         speed: 0.3
       }
+
       function distance(hy, hx, ey, ex) {
         return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
       }
 
       function update() {
-
         //distance
-
         function distance(hy, hx, ey, ex) {
           return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
         }
-
 
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
 
@@ -100,14 +97,11 @@
           vitesseEnnemi = score / adaptationEnnemi
         }
 
-
         //acceleration
-
         hero.speed.x += hero.acceleration.x
         hero.speed.y += hero.acceleration.y
         hero.x += hero.speed.x
         hero.y += hero.speed.y
-
 
         if (hero.speed.x > speedLimit) {
           hero.speed.x = speedLimit
@@ -115,18 +109,17 @@
         if (hero.speed.y > speedLimit) {
           hero.speed.y = speedLimit
         }
+
         hero.speed.x *= friction
         hero.speed.y *= friction
 
         //test collision murs
-
         if (hero.y + hero.height < 0) {
           hero.y = canvas.height
         }
         if (hero.y > canvas.height) {
           hero.y = 0
         }
-
         if (hero.x + hero.width < 0) {
           hero.x = canvas.width
         }
@@ -139,13 +132,13 @@
           score += 1
           reward.x = Math.random() * (canvas.width - reward.width)
           reward.y = Math.random() * (canvas.height - reward.height)
+
           if (spawn < PowerUpspawnRate) {
             spawn = Math.random()
           }
         }
         if (score >= 10) {
           if (collision(ennemi, hero)) {
-
             score -= Math.round(score / 10)
             ennemi.x = canvas.width / 2
             ennemi.y = canvas.height / 2
@@ -198,45 +191,47 @@
         return xin && yin
       }
 
-      function keyDown(evt) {
-        if (evt.key === "ArrowDown") {
+      function keyDown(event) {
+        if (event.key === "ArrowDown") {
           hero.acceleration.y = accelerationMax
         }
-        if (evt.key === "ArrowUp") {
+        if (event.key === "ArrowUp") {
           hero.acceleration.y = -accelerationMax
         }
-        if (evt.key === "ArrowRight") {
+        if (event.key === "ArrowRight") {
           hero.acceleration.x = accelerationMax
         }
-        if (evt.key === "ArrowLeft") {
+        if (event.key === "ArrowLeft") {
           hero.acceleration.x = -accelerationMax
         }
-        if (evt.key === "Shift") {
+        if (event.key === "Shift") {
           hero.speed.x *= brake
           hero.speed.y *= brake
         }
       }
 
-      function keyUp(evt) {
-
-        if (evt.key === "ArrowRight" || evt.key === "ArrowLeft") {
+      function keyUp(event) {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
           hero.acceleration.x = 0
         }
-        if (evt.key === "ArrowUp" || evt.key === "ArrowDown") {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
           hero.acceleration.y = 0
         }
       }
+
       function handleOrientation(event) {
-        var beta = event.beta;
-        var gamma = event.gamma;
+        var beta = event.beta
+        var gamma = event.gamma
         hero.acceleration.x = gamma * 0.1
         hero.acceleration.y = beta * 0.1
       }
+
       window.ondeviceorientation = handleOrientation
       window.onkeyup = keyUp
       window.onkeydown = keyDown
     })()
   </script>
+
 </body>
 
 </html>
