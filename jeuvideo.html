@@ -33,7 +33,8 @@
 
       ctx.font = (15 * ratio) + "px sans-serif"
       //variables
-      score = 0
+      var score = 0
+      var best = 0
       var accelerationMax = 0.0035 * ratio
       var speedLimit = 0.75 * ratio
       var friction = 0.95
@@ -43,7 +44,7 @@
       var powerUpSpeed = 0.3
       var adaptationEnnemi = 290
       var PowerUpspawnRate = 0.8
-      var lastTime=0
+      var lastTime = 0
       var orientationNerf = 0.0005
 
       ennemi = {
@@ -89,7 +90,7 @@
       }
 
       function update(currentTime) {
-        var dt = currentTime-lastTime
+        var dt = currentTime - lastTime
         lastTime = currentTime
 
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
@@ -99,16 +100,16 @@
         var vx = (hero.x - ennemi.x) * vitesseEnnemi / norme
 
         if (score >= 10) {
-          ennemi.y += vy*dt
-          ennemi.x += vx*dt
+          ennemi.y += vy * dt
+          ennemi.x += vx * dt
           vitesseEnnemi = score / adaptationEnnemi
         }
 
         //acceleration
-        hero.speed.x += hero.acceleration.x*dt
-        hero.speed.y += hero.acceleration.y*dt
-        hero.x += hero.speed.x*dt
-        hero.y += hero.speed.y*dt
+        hero.speed.x += hero.acceleration.x * dt
+        hero.speed.y += hero.acceleration.y * dt
+        hero.x += hero.speed.x * dt
+        hero.y += hero.speed.y * dt
 
         if (hero.speed.x > speedLimit) {
           hero.speed.x = speedLimit
@@ -161,26 +162,31 @@
             spawn = Math.random()
           }
         }
+        if (score > best) { //best score
+          best = score
+        }
         draw()
         requestAnimationFrame(update)
       }
 
       function draw() {
-        ctx.fillStyle = '#000033'
+        ctx.fillStyle = '#000033'//dark blue
         ctx.fillRect(0, 0, canvas.width, canvas.height) // color background
 
         ctx.fillStyle = 'black'
         ctx.strokeRect(0, 0, canvas.width, canvas.height)
-       
-        ctx.fillStyle = '#33FF66'
+
+        ctx.fillStyle = '#33FF66'//bright green
         ctx.fillRect(hero.x, hero.y, hero.width, hero.height)
 
-        ctx.fillStyle = '#0099FF'
+        ctx.fillStyle = '#0099FF' //bright blue
         ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
 
         ctx.fillStyle = 'white'
         ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
-
+        if (score < best) {
+          ctx.fillText("best: " + best, 5, canvas.height - 10 * ratio)
+        }
         if (score >= 10) {
           ctx.fillStyle = 'red'
           ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
