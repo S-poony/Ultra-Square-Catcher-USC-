@@ -83,7 +83,7 @@
 
       //distance
       function distance(hy, hx, ey, ex) {
-        return Math.sqrt((hy - ey) * (hy - ey) + (hx - ex) * (hx - ex))
+        return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
       }
 
       function update() {
