@@ -44,7 +44,7 @@
       var adaptationEnnemi = 340
       var PowerUpspawnRate = 0.8
       var lastTime=0
-      var orientationNerf = 0.00035
+      var orientationNerf = 0.00055
 
       ennemi = {
         x: canvas.width / 2,
@@ -169,6 +169,7 @@
         ctx.fillStyle = 'white'
         ctx.fillRect(0, 0, canvas.width, canvas.height) // White background
 
+        ctx.fillStyle = 'black'
         ctx.strokeRect(0, 0, canvas.width, canvas.height)
         ctx.fillStyle = 'green'
         ctx.fillRect(hero.x, hero.y, hero.width, hero.height)
