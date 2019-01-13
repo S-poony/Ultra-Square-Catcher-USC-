@@ -34,15 +34,17 @@
       ctx.font = (15 * ratio) + "px sans-serif"
       //variables
       score = 0
-      accelerationMax = 1 * ratio
-      speedLimit = 15 * ratio
-      friction = 0.95
-      brake = 0.2
-      vitesseEnnemi = 0
-      spawn = 0
-      powerUpSpeed = 0.3
-      adaptationEnnemi = 20
-      PowerUpspawnRate = 0.8
+      var accelerationMax = 0.0035 * ratio
+      var speedLimit = 0.75 * ratio
+      var friction = 0.95
+      var brake = 0.2
+      var vitesseEnnemi = 0
+      var spawn = 0
+      var powerUpSpeed = 0.3
+      var adaptationEnnemi = 340
+      var PowerUpspawnRate = 0.8
+      var lastTime=0
+      var orientationNerf = 0.00588
 
       ennemi = {
         x: canvas.width / 2,
@@ -69,8 +71,8 @@
       reward = {
         x: 100,
         y: 100,
-        width: adaptationEnnemi * ratio,
-        height: adaptationEnnemi * ratio,
+        width: 20 * ratio,
+        height: 20 * ratio,
       }
 
       powerUp = {
@@ -86,7 +88,9 @@
         return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
       }
 
-      function update() {
+      function update(currentTime) {
+        var dt = currentTime-lastTime
+        lastTime = currentTime
 
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
 
@@ -95,16 +99,16 @@
         var vx = (hero.x - ennemi.x) * vitesseEnnemi / norme
 
         if (score >= 10) {
-          ennemi.y += vy
-          ennemi.x += vx
+          ennemi.y += vy*dt
+          ennemi.x += vx*dt
           vitesseEnnemi = score / adaptationEnnemi
         }
 
         //acceleration
-        hero.speed.x += hero.acceleration.x
-        hero.speed.y += hero.acceleration.y
-        hero.x += hero.speed.x
-        hero.y += hero.speed.y
+        hero.speed.x += hero.acceleration.x*dt
+        hero.speed.y += hero.acceleration.y*dt
+        hero.x += hero.speed.x*dt
+        hero.y += hero.speed.y*dt
 
         if (hero.speed.x > speedLimit) {
           hero.speed.x = speedLimit
@@ -185,7 +189,7 @@
         }
       }
 
-      update()
+      requestAnimationFrame(update)
 
       function collision(r, h) {
         var xin = h.x + h.width >= r.x && h.x <= r.x + r.width,
@@ -225,8 +229,8 @@
       function handleOrientation(event) {
         var beta = event.beta
         var gamma = event.gamma
-        hero.acceleration.x = gamma * 0.1
-        hero.acceleration.y = beta * 0.1
+        hero.acceleration.x = gamma * orientationNerf
+        hero.acceleration.y = beta * orientationNerf
       }
 
       window.ondeviceorientation = handleOrientation
