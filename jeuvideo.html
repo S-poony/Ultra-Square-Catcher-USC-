@@ -166,18 +166,19 @@
       }
 
       function draw() {
-        ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, canvas.width, canvas.height) // White background
+        ctx.fillStyle = '#000033'
+        ctx.fillRect(0, 0, canvas.width, canvas.height) // color background
 
         ctx.fillStyle = 'black'
         ctx.strokeRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = 'green'
+       
+        ctx.fillStyle = '#33FF66'
         ctx.fillRect(hero.x, hero.y, hero.width, hero.height)
 
         ctx.fillStyle = 'blue'
         ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
 
-        ctx.fillStyle = 'black'
+        ctx.fillStyle = 'white'
         ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
 
         if (score >= 10) {
