@@ -14,6 +14,12 @@
       canvas = document.querySelector("canvas")
       ctx = canvas.getContext("2d")
 
+      var ratio = window.devicePixelRatio || 1
+      canvas.style.width = canvas.width + "px"
+      canvas.style.height = canvas.height + "px"
+      canvas.width *= ratio
+      canvas.height *= ratio
+
       canvas.onclick = function () {
         // Passage en plein écran lorsque l'on clique sur le canvas
         canvas.requestFullscreen().then(function () {
@@ -25,11 +31,11 @@
         })
       }
 
-      ctx.font = "15px sans-serif"
+      ctx.font = (15 * ratio) + "px sans-serif"
       //variables
       score = 0
-      accelerationMax = 1
-      speedLimit = 15
+      accelerationMax = 1 * ratio
+      speedLimit = 15 * ratio
       friction = 0.95
       brake = 0.2
       vitesseEnnemi = 0
@@ -41,15 +47,15 @@
       ennemi = {
         x: canvas.width / 2,
         y: canvas.height / 2,
-        width: 15,
-        height: 15,
+        width: 15 * ratio,
+        height: 15 * ratio,
       }
 
       hero = {
         x: 0,
         y: 0,
-        width: 25,
-        height: 25,
+        width: 25 * ratio,
+        height: 25 * ratio,
         speed: {
           x: 0,
           y: 0,
@@ -63,15 +69,15 @@
       reward = {
         x: 100,
         y: 100,
-        width: adaptationEnnemi,
-        height: adaptationEnnemi,
+        width: adaptationEnnemi * ratio,
+        height: adaptationEnnemi * ratio,
       }
 
       powerUp = {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        width: 10,
-        height: 10,
+        width: 10 * ratio,
+        height: 10 * ratio,
         speed: 0.3
       }
 
@@ -170,7 +176,7 @@
         ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
 
         ctx.fillStyle = 'black'
-        ctx.fillText("score: " + score, canvas.width / 2, 20)
+        ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
 
         if (score >= 10) {
           ctx.fillStyle = 'red'
