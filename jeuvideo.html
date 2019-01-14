@@ -185,7 +185,7 @@
         ctx.fillStyle = 'white'
         ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
         if (score < best) {
-          ctx.fillText("best: " + best, 5, canvas.height - 10 * ratio)
+          ctx.fillText("best: " + best, 5* ratio, canvas.height - 10 * ratio)
         }
         if (score >= 10) {
           ctx.fillStyle = 'red'
