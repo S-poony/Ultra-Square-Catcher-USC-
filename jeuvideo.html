@@ -20,7 +20,7 @@
       canvas.width *= ratio
       canvas.height *= ratio
 
-      canvas.onclick = function () {
+      canvas.addEventListener("click", function () {
         // Passage en plein écran lorsque l'on clique sur le canvas
         canvas.requestFullscreen().then(function () {
           // Verrouillage de l'orientation 'portrait' lorsque l'on passe en plein écran
@@ -29,7 +29,7 @@
             screen.msLockOrientation
           screen.lockOrientationUniversal("portrait-primary")
         })
-      }
+      })
 
       ctx.font = (15 * ratio) + "px sans-serif"
       //variables
@@ -206,7 +206,23 @@
         return xin && yin
       }
 
-      function keyDown(event) {
+      window.addEventListener("deviceorientation", function(event) {
+        var beta = event.beta
+        var gamma = event.gamma
+        hero.acceleration.x = gamma * orientationNerf
+        hero.acceleration.y = beta * orientationNerf
+      })
+
+      window.addEventListener("keyup", function(event) {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+          hero.acceleration.x = 0
+        }
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          hero.acceleration.y = 0
+        }
+      })
+
+      window.addEventListener("keydown", function(event) {
         if (event.key === "ArrowDown") {
           hero.acceleration.y = accelerationMax
         }
@@ -223,27 +239,7 @@
           hero.speed.x *= brake
           hero.speed.y *= brake
         }
-      }
-
-      function keyUp(event) {
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-          hero.acceleration.x = 0
-        }
-        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-          hero.acceleration.y = 0
-        }
-      }
-
-      function handleOrientation(event) {
-        var beta = event.beta
-        var gamma = event.gamma
-        hero.acceleration.x = gamma * orientationNerf
-        hero.acceleration.y = beta * orientationNerf
-      }
-
-      window.ondeviceorientation = handleOrientation
-      window.onkeyup = keyUp
-      window.onkeydown = keyDown
+      })
     })()
   </script>
 
