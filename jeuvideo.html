@@ -92,7 +92,7 @@
       function update(currentTime) {
         var dt = currentTime - lastTime
         lastTime = currentTime
-
+        Math.min(dt, 400)
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
 
         //ennemi
