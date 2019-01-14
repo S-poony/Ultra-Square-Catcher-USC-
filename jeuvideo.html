@@ -42,7 +42,7 @@
       var vitesseEnnemi = 0
       var spawn = 0
       var powerUpSpeed = 0.3
-      var adaptationEnnemi = 290
+      var adaptationEnnemi = 270
       var PowerUpspawnRate = 0.8
       var lastTime = 0
       var orientationNerf = 0.0005
@@ -92,7 +92,7 @@
       function update(currentTime) {
         var dt = currentTime - lastTime
         lastTime = currentTime
-        Math.min(dt, 400)
+        dt=Math.min(dt, 400) //choses qui bougent
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
 
         //ennemi
