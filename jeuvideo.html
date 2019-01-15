@@ -11,10 +11,10 @@
 
   <script>
     (function () {
-      canvas = document.querySelector("canvas")
-      ctx = canvas.getContext("2d")
+      const canvas = document.querySelector("canvas")
+      const ctx = canvas.getContext("2d")
 
-      var ratio = window.devicePixelRatio || 1
+      let ratio = window.devicePixelRatio || 1
       canvas.style.width = canvas.width + "px"
       canvas.style.height = canvas.height + "px"
       canvas.width *= ratio
@@ -33,28 +33,30 @@
 
       ctx.font = (15 * ratio) + "px sans-serif"
       //variables
-      var score = 0
-      var best = 0
-      var accelerationMax = 0.0035 * ratio
-      var speedLimit = 0.75 * ratio
-      var friction = 0.95
-      var brake = 0.2
-      var vitesseEnnemi = 0
-      var spawn = 0
-      var powerUpSpeed = 0.3
-      var adaptationEnnemi = 290
-      var PowerUpspawnRate = 0.8
-      var lastTime = 0
-      var orientationNerf = 0.0005
+      let score = 0
+      let best = 0
+      let vitesseEnnemi = 0
+      let spawn = 0
+      let powerUpSpeed = 0.3
+      let lastTime = 0
 
-      ennemi = {
+      //constants
+      const ACCELERATION_MAX = 0.0035 * ratio
+      const SPEED_LIMIT = 0.75 * ratio
+      const FRICTION = 0.95
+      const BRAKE = 0.2
+      const ADAPTATION_ENNEMI = 290
+      const POWER_UP_SPAWN_RATE = 0.8
+      const ORIENTATION_NERF = 0.0005
+
+      let ennemi = {
         x: canvas.width / 2,
         y: canvas.height / 2,
         width: 15 * ratio,
         height: 15 * ratio,
       }
 
-      hero = {
+      let hero = {
         x: 0,
         y: 0,
         width: 25 * ratio,
@@ -69,14 +71,14 @@
         }
       }
 
-      reward = {
+      let reward = {
         x: 100,
         y: 100,
         width: 20 * ratio,
         height: 20 * ratio,
       }
 
-      powerUp = {
+      let powerUp = {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         width: 10 * ratio,
@@ -90,19 +92,19 @@
       }
 
       function update(currentTime) {
-        var dt = currentTime - lastTime
+        let dt = currentTime - lastTime
         lastTime = currentTime
 
-        var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
+        let norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
 
         //ennemi
-        var vy = (hero.y - ennemi.y) * vitesseEnnemi / norme
-        var vx = (hero.x - ennemi.x) * vitesseEnnemi / norme
+        let vy = (hero.y - ennemi.y) * vitesseEnnemi / norme
+        let vx = (hero.x - ennemi.x) * vitesseEnnemi / norme
 
         if (score >= 10) {
           ennemi.y += vy * dt
           ennemi.x += vx * dt
-          vitesseEnnemi = score / adaptationEnnemi
+          vitesseEnnemi = score / ADAPTATION_ENNEMI
         }
 
         //acceleration
@@ -111,15 +113,15 @@
         hero.x += hero.speed.x * dt
         hero.y += hero.speed.y * dt
 
-        if (hero.speed.x > speedLimit) {
-          hero.speed.x = speedLimit
+        if (hero.speed.x > SPEED_LIMIT) {
+          hero.speed.x = SPEED_LIMIT
         }
-        if (hero.speed.y > speedLimit) {
-          hero.speed.y = speedLimit
+        if (hero.speed.y > SPEED_LIMIT) {
+          hero.speed.y = SPEED_LIMIT
         }
 
-        hero.speed.x *= friction
-        hero.speed.y *= friction
+        hero.speed.x *= FRICTION
+        hero.speed.y *= FRICTION
 
         //test collision murs
         if (hero.y + hero.height < 0) {
@@ -141,7 +143,7 @@
           reward.x = Math.random() * (canvas.width - reward.width)
           reward.y = Math.random() * (canvas.height - reward.height)
 
-          if (spawn < PowerUpspawnRate) {
+          if (spawn < POWER_UP_SPAWN_RATE) {
             spawn = Math.random()
           }
         }
@@ -154,7 +156,7 @@
             hero.y = 1
           }
         }
-        if (spawn > PowerUpspawnRate) {
+        if (spawn > POWER_UP_SPAWN_RATE) {
           if (collision(powerUp, hero)) {
             score += 5
             powerUp.x = Math.random() * (canvas.width - powerUp.width)
@@ -191,7 +193,7 @@
           ctx.fillStyle = 'red'
           ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
         }
-        if (spawn > PowerUpspawnRate) {
+        if (spawn > POWER_UP_SPAWN_RATE) {
           ctx.fillStyle = 'cyan'
           ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
         }
@@ -200,17 +202,17 @@
       requestAnimationFrame(update)
 
       function collision(r, h) {
-        var xin = h.x + h.width >= r.x && h.x <= r.x + r.width,
-          yin = h.y + h.height >= r.y && h.y <= r.y + r.height
+        let xin = h.x + h.width >= r.x && h.x <= r.x + r.width
+        let yin = h.y + h.height >= r.y && h.y <= r.y + r.height
 
         return xin && yin
       }
 
       window.addEventListener("deviceorientation", function(event) {
-        var beta = event.beta
-        var gamma = event.gamma
-        hero.acceleration.x = gamma * orientationNerf
-        hero.acceleration.y = beta * orientationNerf
+        let beta = event.beta
+        let gamma = event.gamma
+        hero.acceleration.x = gamma * ORIENTATION_NERF
+        hero.acceleration.y = beta * ORIENTATION_NERF
       })
 
       window.addEventListener("keyup", function(event) {
@@ -224,20 +226,20 @@
 
       window.addEventListener("keydown", function(event) {
         if (event.key === "ArrowDown") {
-          hero.acceleration.y = accelerationMax
+          hero.acceleration.y = ACCELERATION_MAX
         }
         if (event.key === "ArrowUp") {
-          hero.acceleration.y = -accelerationMax
+          hero.acceleration.y = -ACCELERATION_MAX
         }
         if (event.key === "ArrowRight") {
-          hero.acceleration.x = accelerationMax
+          hero.acceleration.x = ACCELERATION_MAX
         }
         if (event.key === "ArrowLeft") {
-          hero.acceleration.x = -accelerationMax
+          hero.acceleration.x = -ACCELERATION_MAX
         }
         if (event.key === "Shift") {
-          hero.speed.x *= brake
-          hero.speed.y *= brake
+          hero.speed.x *= BRAKE
+          hero.speed.y *= BRAKE
         }
       })
     })()
