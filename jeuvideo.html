@@ -92,7 +92,7 @@
       function update(currentTime) {
         var dt = currentTime - lastTime
         lastTime = currentTime
-        dt=Math.min(dt, 400) //choses qui bougent
+        dt = Math.min(dt, 400) //choses qui bougent
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
 
         //ennemi
@@ -121,7 +121,7 @@
         hero.speed.x *= friction
         hero.speed.y *= friction
 
-        //test collision murs
+        //collision murs
         if (hero.y + hero.height < 0) {
           hero.y = canvas.height
         }
@@ -165,6 +165,11 @@
         if (score > best) { //best score
           best = score
         }
+        if (best - score >= 5) {
+          PowerUpspawnRate = 0.5
+        } else {
+          PowerUpspawnRate = 0.8
+        }
         draw()
         requestAnimationFrame(update)
       }
@@ -185,7 +190,7 @@
         ctx.fillStyle = 'white'
         ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
         if (score < best) {
-          ctx.fillText("best: " + best, 5* ratio, canvas.height - 10 * ratio)
+          ctx.fillText("best: " + best, 5 * ratio, canvas.height - 10 * ratio)
         }
         if (score >= 10) {
           ctx.fillStyle = 'red'
