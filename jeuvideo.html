@@ -45,7 +45,7 @@
       const SPEED_LIMIT = 0.75 * ratio
       const FRICTION = 0.95
       const BRAKE = 0.2
-      const ADAPTATION_ENNEMI = 290
+      const ADAPTATION_ENNEMI = 270
       const POWER_UP_SPAWN_RATE = 0.8
       const ORIENTATION_NERF = 0.0005
 
@@ -94,7 +94,7 @@
       function update(currentTime) {
         let dt = currentTime - lastTime
         lastTime = currentTime
-
+        dt=Math.min(dt, 400) //choses qui bougent
         let norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
 
         //ennemi
