@@ -11,8 +11,8 @@
 
   <script>
     (function () {
-      canvas = document.querySelector("canvas")
-      ctx = canvas.getContext("2d")
+      var canvas = document.querySelector("canvas")
+      var ctx = canvas.getContext("2d")
 
       var ratio = window.devicePixelRatio || 1
       canvas.style.width = canvas.width + "px"
@@ -20,7 +20,7 @@
       canvas.width *= ratio
       canvas.height *= ratio
 
-      canvas.onclick = function () {
+      canvas.addEventListener("click", function () {
         // Passage en plein écran lorsque l'on clique sur le canvas
         canvas.requestFullscreen().then(function () {
           // Verrouillage de l'orientation 'portrait' lorsque l'on passe en plein écran
@@ -29,32 +29,34 @@
             screen.msLockOrientation
           screen.lockOrientationUniversal("portrait-primary")
         })
-      }
+      })
 
       ctx.font = (15 * ratio) + "px sans-serif"
       //variables
       var score = 0
       var best = 0
-      var accelerationMax = 0.0035 * ratio
-      var speedLimit = 0.75 * ratio
-      var friction = 0.95
-      var brake = 0.2
       var vitesseEnnemi = 0
       var spawn = 0
       var powerUpSpeed = 0.3
-      var adaptationEnnemi = 270
-      var PowerUpspawnRate = 0.8
       var lastTime = 0
-      var orientationNerf = 0.0005
 
-      ennemi = {
+      //constants
+      var ACCELERATION_MAX = 0.0035 * ratio
+      var SPEED_LIMIT = 0.75 * ratio
+      var FRICTION = 0.95
+      var BRAKE = 0.2
+      var ADAPTATION_ENNEMI = 270
+      var POWER_UP_SPAWN_RATE = 0.8
+      var ORIENTATION_NERF = 0.0005
+
+      var ennemi = {
         x: canvas.width / 2,
         y: canvas.height / 2,
         width: 15 * ratio,
         height: 15 * ratio,
       }
 
-      hero = {
+      var hero = {
         x: 0,
         y: 0,
         width: 25 * ratio,
@@ -69,14 +71,14 @@
         }
       }
 
-      reward = {
+      var reward = {
         x: 100,
         y: 100,
         width: 20 * ratio,
         height: 20 * ratio,
       }
 
-      powerUp = {
+      var powerUp = {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         width: 10 * ratio,
@@ -92,8 +94,10 @@
       function update(currentTime) {
         var dt = currentTime - lastTime
         lastTime = currentTime
+
         dt = Math.min(dt, 400) //choses qui bougent
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
+
 
         //ennemi
         var vy = (hero.y - ennemi.y) * vitesseEnnemi / norme
@@ -102,7 +106,7 @@
         if (score >= 10) {
           ennemi.y += vy * dt
           ennemi.x += vx * dt
-          vitesseEnnemi = score / adaptationEnnemi
+          vitesseEnnemi = score / ADAPTATION_ENNEMI
         }
 
         //acceleration
@@ -111,15 +115,15 @@
         hero.x += hero.speed.x * dt
         hero.y += hero.speed.y * dt
 
-        if (hero.speed.x > speedLimit) {
-          hero.speed.x = speedLimit
+        if (hero.speed.x > SPEED_LIMIT) {
+          hero.speed.x = SPEED_LIMIT
         }
-        if (hero.speed.y > speedLimit) {
-          hero.speed.y = speedLimit
+        if (hero.speed.y > SPEED_LIMIT) {
+          hero.speed.y = SPEED_LIMIT
         }
 
-        hero.speed.x *= friction
-        hero.speed.y *= friction
+        hero.speed.x *= FRICTION
+        hero.speed.y *= FRICTION
 
         //collision murs
         if (hero.y + hero.height < 0) {
@@ -141,7 +145,7 @@
           reward.x = Math.random() * (canvas.width - reward.width)
           reward.y = Math.random() * (canvas.height - reward.height)
 
-          if (spawn < PowerUpspawnRate) {
+          if (spawn < POWER_UP_SPAWN_RATE) {
             spawn = Math.random()
           }
         }
@@ -154,7 +158,7 @@
             hero.y = 1
           }
         }
-        if (spawn > PowerUpspawnRate) {
+        if (spawn > POWER_UP_SPAWN_RATE) {
           if (collision(powerUp, hero)) {
             score += 5
             powerUp.x = Math.random() * (canvas.width - powerUp.width)
@@ -196,7 +200,7 @@
           ctx.fillStyle = 'red'
           ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
         }
-        if (spawn > PowerUpspawnRate) {
+        if (spawn > POWER_UP_SPAWN_RATE) {
           ctx.fillStyle = 'cyan'
           ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
         }
@@ -205,50 +209,46 @@
       requestAnimationFrame(update)
 
       function collision(r, h) {
-        var xin = h.x + h.width >= r.x && h.x <= r.x + r.width,
-          yin = h.y + h.height >= r.y && h.y <= r.y + r.height
+        var xin = h.x + h.width >= r.x && h.x <= r.x + r.width
+        var yin = h.y + h.height >= r.y && h.y <= r.y + r.height
 
         return xin && yin
       }
 
-      function keyDown(event) {
-        if (event.key === "ArrowDown") {
-          hero.acceleration.y = accelerationMax
-        }
-        if (event.key === "ArrowUp") {
-          hero.acceleration.y = -accelerationMax
-        }
-        if (event.key === "ArrowRight") {
-          hero.acceleration.x = accelerationMax
-        }
-        if (event.key === "ArrowLeft") {
-          hero.acceleration.x = -accelerationMax
-        }
-        if (event.key === "Shift") {
-          hero.speed.x *= brake
-          hero.speed.y *= brake
-        }
-      }
+      window.addEventListener("deviceorientation", function(event) {
+        var beta = event.beta
+        var gamma = event.gamma
+        hero.acceleration.x = gamma * ORIENTATION_NERF
+        hero.acceleration.y = beta * ORIENTATION_NERF
+      })
 
-      function keyUp(event) {
+      window.addEventListener("keyup", function(event) {
         if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
           hero.acceleration.x = 0
         }
         if (event.key === "ArrowUp" || event.key === "ArrowDown") {
           hero.acceleration.y = 0
         }
-      }
+      })
 
-      function handleOrientation(event) {
-        var beta = event.beta
-        var gamma = event.gamma
-        hero.acceleration.x = gamma * orientationNerf
-        hero.acceleration.y = beta * orientationNerf
-      }
-
-      window.ondeviceorientation = handleOrientation
-      window.onkeyup = keyUp
-      window.onkeydown = keyDown
+      window.addEventListener("keydown", function(event) {
+        if (event.key === "ArrowDown") {
+          hero.acceleration.y = ACCELERATION_MAX
+        }
+        if (event.key === "ArrowUp") {
+          hero.acceleration.y = -ACCELERATION_MAX
+        }
+        if (event.key === "ArrowRight") {
+          hero.acceleration.x = ACCELERATION_MAX
+        }
+        if (event.key === "ArrowLeft") {
+          hero.acceleration.x = -ACCELERATION_MAX
+        }
+        if (event.key === "Shift") {
+          hero.speed.x *= BRAKE
+          hero.speed.y *= BRAKE
+        }
+      })
     })()
   </script>
 
