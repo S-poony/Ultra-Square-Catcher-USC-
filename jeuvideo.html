@@ -33,7 +33,7 @@
 
       ctx.font = (15 * ratio) + "px sans-serif"
       //variables
-       score = 0
+      score = 0
       var best = 0
       var vitesseEnnemi = 0
       var spawn = 0
@@ -188,22 +188,23 @@
         ctx.fillStyle = '#33FF66'//bright green
         ctx.fillRect(hero.x, hero.y, hero.width, hero.height)
 
-        ctx.fillStyle = '#0099FF' //bright blue
+        ctx.fillStyle = '#0099FF' //bright blue reward
         ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
 
+        if (score >= 10) {
+          ctx.fillStyle = 'red'
+          ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height) //ennemy
+        }
+        if (spawn > PowerUpspawnRate) {
+          ctx.fillStyle = 'cyan'
+          ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height) //powerUp
+        }
         ctx.fillStyle = 'white'
         ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
         if (score < best) {
           ctx.fillText("best: " + best, 5 * ratio, canvas.height - 10 * ratio)
         }
-        if (score >= 10) {
-          ctx.fillStyle = 'red'
-          ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
-        }
-        if (spawn > PowerUpspawnRate) {
-          ctx.fillStyle = 'cyan'
-          ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
-        }
+
       }
 
       requestAnimationFrame(update)
@@ -215,14 +216,14 @@
         return xin && yin
       }
 
-      window.addEventListener("deviceorientation", function(event) {
+      window.addEventListener("deviceorientation", function (event) {
         var beta = event.beta
         var gamma = event.gamma
         hero.acceleration.x = gamma * ORIENTATION_NERF
         hero.acceleration.y = beta * ORIENTATION_NERF
       })
 
-      window.addEventListener("keyup", function(event) {
+      window.addEventListener("keyup", function (event) {
         if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
           hero.acceleration.x = 0
         }
@@ -231,7 +232,7 @@
         }
       })
 
-      window.addEventListener("keydown", function(event) {
+      window.addEventListener("keydown", function (event) {
         if (event.key === "ArrowDown") {
           hero.acceleration.y = ACCELERATION_MAX
         }
