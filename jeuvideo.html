@@ -33,12 +33,13 @@
 
       ctx.font = (15 * ratio) + "px sans-serif"
       //variables
-      var score = 0
+       score = 0
       var best = 0
       var vitesseEnnemi = 0
       var spawn = 0
       var powerUpSpeed = 0.3
       var lastTime = 0
+      var PowerUpspawnRate = 0.8
 
       //constants
       var ACCELERATION_MAX = 0.0035 * ratio
@@ -46,7 +47,6 @@
       var FRICTION = 0.95
       var BRAKE = 0.2
       var ADAPTATION_ENNEMI = 270
-      var POWER_UP_SPAWN_RATE = 0.8
       var ORIENTATION_NERF = 0.0005
 
       var ennemi = {
@@ -145,7 +145,7 @@
           reward.x = Math.random() * (canvas.width - reward.width)
           reward.y = Math.random() * (canvas.height - reward.height)
 
-          if (spawn < POWER_UP_SPAWN_RATE) {
+          if (spawn < PowerUpspawnRate) {
             spawn = Math.random()
           }
         }
@@ -158,7 +158,7 @@
             hero.y = 1
           }
         }
-        if (spawn > POWER_UP_SPAWN_RATE) {
+        if (spawn > PowerUpspawnRate) {
           if (collision(powerUp, hero)) {
             score += 5
             powerUp.x = Math.random() * (canvas.width - powerUp.width)
@@ -200,7 +200,7 @@
           ctx.fillStyle = 'red'
           ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height)
         }
-        if (spawn > POWER_UP_SPAWN_RATE) {
+        if (spawn > PowerUpspawnRate) {
           ctx.fillStyle = 'cyan'
           ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height)
         }
