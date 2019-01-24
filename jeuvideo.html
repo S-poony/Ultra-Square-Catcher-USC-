@@ -100,7 +100,7 @@
         return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
       }
       function direction(target, ennemi, vitesse, norme) {
-        return (target-ennemi) * vitesse / norme
+        return (target - ennemi) * vitesse / norme
       }
 
       function update(currentTime) {
@@ -111,7 +111,7 @@
 
         //ennemi
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
-        var vy = direction(hero.y, ennemi.y, ennemi.vitesse,norme)
+        var vy = direction(hero.y, ennemi.y, ennemi.vitesse, norme)
         var vx = direction(hero.x, ennemi.x, ennemi.vitesse, norme)
 
         if (score >= 10) {
@@ -120,10 +120,10 @@
           ennemi.vitesse = score / ADAPTATION_ENNEMI
         }
         //thief
-        var thiefNorme = distance (reward.y, hero.x, reward.x, hero.y)
+        var thiefNorme = distance(reward.y, thief.x, thief.x, hero.y)
         var vty = direction(reward.y, thief.y, thief.vitesse, thiefNorme)
         var vtx = direction(reward.x, thief.x, thief.vitesse, thiefNorme)
-        
+
         if (score >= 60) {
           thief.y += vty * dt
           thief.x += vtx * dt
@@ -188,8 +188,8 @@
             hero.y = 1
           }
           if (collision(thief, reward)) {
-          reward.x = Math.random() * (canvas.width - reward.width)
-          reward.y = Math.random() * (canvas.height - reward.height)
+            reward.x = Math.random() * (canvas.width - reward.width)
+            reward.y = Math.random() * (canvas.height - reward.height)
           }
         }
         if (spawn > PowerUpspawnRate) {
