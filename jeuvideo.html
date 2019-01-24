@@ -46,7 +46,7 @@
       var FRICTION = 0.95
       var BRAKE = 0.2
       var ADAPTATION_ENNEMI = 270
-      var ADAPTATION_THIEF = 270
+      var ADAPTATION_THIEF = 750
       var ORIENTATION_NERF = 0.0005
 
       var ennemi = {
@@ -103,7 +103,7 @@
         return (target - ennemi) * vitesse / norme
       }
 
-      function update(currentTime) {
+      function update(currentTime) {//ici commence le temps réel
         var dt = currentTime - lastTime
         lastTime = currentTime
 
@@ -120,14 +120,14 @@
           ennemi.vitesse = score / ADAPTATION_ENNEMI
         }
         //thief
-        var thiefNorme = distance(reward.y, thief.x, thief.x, hero.y)
+        var thiefNorme = distance(reward.y, reward.x, thief.y, thief.x)
         var vty = direction(reward.y, thief.y, thief.vitesse, thiefNorme)
         var vtx = direction(reward.x, thief.x, thief.vitesse, thiefNorme)
 
         if (score >= 60) {
           thief.y += vty * dt
           thief.x += vtx * dt
-          thief.vitesse = score / ADAPTATION_THIEF
+          thief.vitesse = distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF
         }
 
         //acceleration
@@ -181,11 +181,8 @@
         }
         if (score >= 60) { //thief
           if (collision(thief, hero)) {
-            score -= 10
             thief.x = canvas.width / 2
             thief.y = canvas.height / 2
-            hero.x = 1
-            hero.y = 1
           }
           if (collision(thief, reward)) {
             reward.x = Math.random() * (canvas.width - reward.width)
