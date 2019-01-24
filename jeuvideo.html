@@ -35,7 +35,6 @@
       //variables
       score = 0
       var best = 0
-      var vitesseEnnemi = 0
       var spawn = 0
       var powerUpSpeed = 0.3
       var lastTime = 0
@@ -54,6 +53,14 @@
         y: canvas.height / 2,
         width: 15 * ratio,
         height: 15 * ratio,
+        vitesse: 0,
+      }
+
+      var thief = {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        width: 25 * ratio,
+        height: 25 * ratio,
       }
 
       var hero = {
@@ -103,13 +110,13 @@
 
 
         //ennemi
-        var vy = direction(hero.y, ennemi.y, vitesseEnnemi,norme)
-        var vx = direction(hero.x, ennemi.x, vitesseEnnemi, norme)
+        var vy = direction(hero.y, ennemi.y, ennemi.vitesse,norme)
+        var vx = direction(hero.x, ennemi.x, ennemi.vitesse, norme)
 
         if (score >= 10) {
           ennemi.y += vy * dt
           ennemi.x += vx * dt
-          vitesseEnnemi = score / ADAPTATION_ENNEMI
+          ennemi.vitesse = score / ADAPTATION_ENNEMI
         }
 
         //acceleration
