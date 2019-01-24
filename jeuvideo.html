@@ -86,9 +86,12 @@
         speed: 0.3
       }
 
-      //distance
+      //ennemy finding target
       function distance(hy, hx, ey, ex) {
         return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
+      }
+      function direction(target, ennemi, vitesse, norme) {
+        return (target-ennemi) * vitesse / norme
       }
 
       function update(currentTime) {
@@ -100,8 +103,8 @@
 
 
         //ennemi
-        var vy = (hero.y - ennemi.y) * vitesseEnnemi / norme
-        var vx = (hero.x - ennemi.x) * vitesseEnnemi / norme
+        var vy = direction(hero.y, ennemi.y, vitesseEnnemi,norme)
+        var vx = direction(hero.x, ennemi.x, vitesseEnnemi, norme)
 
         if (score >= 10) {
           ennemi.y += vy * dt
