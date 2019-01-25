@@ -127,7 +127,7 @@
         if (score >= 60) {
           thief.y += vty * dt
           thief.x += vtx * dt
-          thief.vitesse = distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF
+          thief.vitesse = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
         }
 
         //acceleration
