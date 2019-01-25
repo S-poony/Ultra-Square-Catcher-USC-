@@ -12,7 +12,7 @@ The World: At the begining, there was nothing. Then World, the dark blue square.
 
 Square Catcher: You! A wild green square that is looking for blue squares to collect.
 
-Blue squares: A pretty common square. They aren't alive, but they give points if they are caught. Legend says they come from the original dark blue square...
+Blue squares: A pretty common type of squares. They aren't alive, but they give points if they are caught. Legend says they come from the original dark blue square...
 
 Cyan squares: A less common, more juicy type of blue squares. They give more points too !
 
