@@ -54,7 +54,15 @@
         y: canvas.height / 2,
         width: 15 * ratio,
         height: 15 * ratio,
-        vitesse: 0,
+        speed: {
+          x: 0,
+          y: 0,
+        },
+        acceleration: {//stay 0 forever
+          x: 0,
+          y: 0,
+        },
+        limitation: 0,
       }
 
       var thief = {
@@ -62,7 +70,7 @@
         y: canvas.height / 2,
         width: 30 * ratio,
         height: 30 * ratio,
-        vitesse: 0
+        limitation: 0
       }
 
       var hero = {
@@ -95,46 +103,53 @@
         speed: 0.3
       }
 
-      //ennemy finding target
+      //movement
       function distance(hy, hx, ey, ex) {
         return Math.sqrt(Math.pow(hy - ey, 2) + Math.pow(hx - ex, 2))
       }
-      function direction(target, ennemi, vitesse, norme) {
-        return (target - ennemi) * vitesse / norme
+      function direction(target, ennemi, limitation, norme) {
+        return (target - ennemi) * limitation / norme
       }
 
       function update(currentTime) {//ici commence le temps réel
         var dt = currentTime - lastTime
         lastTime = currentTime
 
+        function movementx(object) {
+          object.speed.x += object.acceleration.x * dt
+          return object.x += object.speed.x * dt
+        }
+        function movementy(object) {
+          object.speed.y += object.acceleration.y * dt
+          return object.y += object.speed.y * dt
+        }
+
         dt = Math.min(dt, 400) //choses qui bougent
 
         //ennemi
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
-        var vy = direction(hero.y, ennemi.y, ennemi.vitesse, norme)
-        var vx = direction(hero.x, ennemi.x, ennemi.vitesse, norme)
+        ennemi.speed.y = direction(hero.y, ennemi.y, ennemi.limitation, norme)
+        ennemi.speed.x = direction(hero.x, ennemi.x, ennemi.limitation, norme)
 
         if (score >= 10) {
-          ennemi.y += vy * dt
-          ennemi.x += vx * dt
-          ennemi.vitesse = score / ADAPTATION_ENNEMI
+          movementx(ennemi)
+          movementy(ennemi)
+          ennemi.limitation = score / ADAPTATION_ENNEMI
         }
         //thief
         var thiefNorme = distance(reward.y, reward.x, thief.y, thief.x)
-        var vty = direction(reward.y, thief.y, thief.vitesse, thiefNorme)
-        var vtx = direction(reward.x, thief.x, thief.vitesse, thiefNorme)
+        var vty = direction(reward.y, thief.y, thief.limitation, thiefNorme)
+        var vtx = direction(reward.x, thief.x, thief.limitation, thiefNorme)
 
         if (score >= 60) {
           thief.y += vty * dt
           thief.x += vtx * dt
-          thief.vitesse = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
+          thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
         }
 
-        //acceleration
-        hero.speed.x += hero.acceleration.x * dt
-        hero.speed.y += hero.acceleration.y * dt
-        hero.x += hero.speed.x * dt
-        hero.y += hero.speed.y * dt
+        //hero
+        movementx(hero)
+        movementy(hero)
 
         if (hero.speed.x > SPEED_LIMIT) {
           hero.speed.x = SPEED_LIMIT
