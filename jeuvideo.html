@@ -125,14 +125,11 @@
       function direction(target, ennemi, limitation, norme) {
         return (target - ennemi) * limitation / norme
       }
-      function spawn(object) {
-        return score >= object.spawnCondition
-      }
       function orientation(object, target) {
           var norme = distance(target.y, target.x, object.y, object.x)
           object.speed.y = direction(target.y, object.y, object.limitation, norme)
           object.speed.x = direction(target.x, object.x, object.limitation, norme)
-          object.spawn = spawn(object)
+          object.spawn = score >= object.spawnCondition
         }
 
       function update(currentTime) {//ici commence le temps réel
