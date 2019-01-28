@@ -126,11 +126,15 @@
         return (target - ennemi) * limitation / norme
       }
       function orientation(object, target) {
-          var norme = distance(target.y, target.x, object.y, object.x)
-          object.speed.y = direction(target.y, object.y, object.limitation, norme)
-          object.speed.x = direction(target.x, object.x, object.limitation, norme)
-          object.spawn = score >= object.spawnCondition
-        }
+        var norme = distance(target.y, target.x, object.y, object.x)
+        object.speed.y = direction(target.y, object.y, object.limitation, norme)
+        object.speed.x = direction(target.x, object.x, object.limitation, norme)
+        object.spawn = score >= object.spawnCondition
+      }
+      function randomSpawn(object) {
+        object.x = Math.random() * (canvas.width - object.width)
+        object.y = Math.random() * (canvas.height - object.height)
+      }
 
       function update(currentTime) {//ici commence le temps réel
         var dt = currentTime - lastTime
@@ -190,10 +194,9 @@
         //collisions
         if (collision(reward, hero)) {
           score += 1
-          reward.x = Math.random() * (canvas.width - reward.width)
-          reward.y = Math.random() * (canvas.height - reward.height)
+          randomSpawn(reward)
 
-          if (powerUp.spawn > PowerUpspawnRate) {
+          if (powerUp.spawn < PowerUpspawnRate) {
             powerUp.spawn = Math.random()
           }
         }
@@ -212,8 +215,7 @@
             thief.y = canvas.height / 2
           }
           if (collision(thief, reward)) {
-            reward.x = Math.random() * (canvas.width - reward.width)
-            reward.y = Math.random() * (canvas.height - reward.height)
+            randomSpawn(reward)
           }
         }
         if (powerUp.spawn > PowerUpspawnRate) {
