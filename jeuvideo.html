@@ -35,7 +35,6 @@
       //variables
       score = 0
       var best = 0
-      var powerUpSpeed = 0.3
       var lastTime = 0
       var PowerUpspawnRate = 0.8
 
@@ -129,6 +128,12 @@
       function spawn(object) {
         return score >= object.spawnCondition
       }
+      function orientation(object, target) {
+          var norme = distance(target.y, target.x, object.y, object.x)
+          object.speed.y = direction(target.y, object.y, object.limitation, norme)
+          object.speed.x = direction(target.x, object.x, object.limitation, norme)
+          object.spawn = spawn(object)
+        }
 
       function update(currentTime) {//ici commence le temps réel
         var dt = currentTime - lastTime
@@ -144,20 +149,14 @@
         dt = Math.min(dt, 400) //choses qui bougent
 
         //ennemi
-        var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
-        ennemi.speed.y = direction(hero.y, ennemi.y, ennemi.limitation, norme)
-        ennemi.speed.x = direction(hero.x, ennemi.x, ennemi.limitation, norme)
-        ennemi.spawn = spawn(ennemi)
+        orientation(ennemi, hero)
 
         if (ennemi.spawn) {
           movement(ennemi)
           ennemi.limitation = score / ADAPTATION_ENNEMI
         }
         //thief
-        var thiefNorme = distance(reward.y, reward.x, thief.y, thief.x)
-        thief.speed.y = direction(reward.y, thief.y, thief.limitation, thiefNorme)
-        thief.speed.x = direction(reward.x, thief.x, thief.limitation, thiefNorme)
-        thief.spawn = spawn(thief)
+        orientation(thief, reward)
 
         if (thief.spawn) {
           movement(thief)
