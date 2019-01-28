@@ -70,6 +70,14 @@
         y: canvas.height / 2,
         width: 30 * ratio,
         height: 30 * ratio,
+        speed: {
+          x: 0,
+          y: 0,
+        },
+        acceleration: {//stay 0 forever
+          x: 0,
+          y: 0,
+        },
         limitation: 0
       }
 
@@ -110,7 +118,7 @@
       function direction(target, ennemi, limitation, norme) {
         return (target - ennemi) * limitation / norme
       }
-
+      
       function update(currentTime) {//ici commence le temps réel
         var dt = currentTime - lastTime
         lastTime = currentTime
@@ -138,12 +146,12 @@
         }
         //thief
         var thiefNorme = distance(reward.y, reward.x, thief.y, thief.x)
-        var vty = direction(reward.y, thief.y, thief.limitation, thiefNorme)
-        var vtx = direction(reward.x, thief.x, thief.limitation, thiefNorme)
+        thief.speed.y = direction(reward.y, thief.y, thief.limitation, thiefNorme)
+        thief.speed.x = direction(reward.x, thief.x, thief.limitation, thiefNorme)
 
         if (score >= 60) {
-          thief.y += vty * dt
-          thief.x += vtx * dt
+          movementx(thief)
+          movementy(thief)
           thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
         }
 
