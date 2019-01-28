@@ -47,7 +47,7 @@
       var ADAPTATION_THIEF = 750
       var ORIENTATION_NERF = 0.0005
 
-      ennemi = {
+      var ennemi = {
         x: canvas.width / 2,
         y: canvas.height / 2,
         width: 15 * ratio,
@@ -221,8 +221,7 @@
         if (powerUp.spawn > PowerUpspawnRate) {
           if (collision(powerUp, hero)) {
             score += 5
-            powerUp.x = Math.random() * (canvas.width - powerUp.width)
-            powerUp.y = Math.random() * (canvas.height - powerUp.height)
+            randomSpawn(powerUp)
             powerUp.spawn = Math.random()
           }
         }
