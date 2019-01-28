@@ -8,13 +8,13 @@ You are a green square catcher. Your goal is to catch blue squares in order to i
 
 Lore:
 
-The World: At the begining, there was nothing. Then World, the dark blue square. World created and continues to create squares in his image, with four sides and a color.
+The World: At the beginning, there was nothing. The World, the dark blue square. The World created and continues to create squares in his image, with four sides and a color.
 
 Square Catcher: You! A wild green square that is looking for blue squares to collect.
 
 Blue squares: A pretty common type of squares. They aren't alive, but they give points if they are caught. Legend says they come from the original dark blue square...
 
-Cyan squares: A less common, more juicy type of blue squares. They give more points too !
+Cyan squares: A less common, more juicy type of blue squares. They give more points too!
 
 Red: The rival of the green square, he is jealous of you because he can't catch the blue squares, so he tries to steal your points instead!
 
