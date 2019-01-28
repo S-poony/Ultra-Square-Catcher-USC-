@@ -196,7 +196,7 @@
           reward.x = Math.random() * (canvas.width - reward.width)
           reward.y = Math.random() * (canvas.height - reward.height)
 
-          if (powerUp.spawn < PowerUpspawnRate) {
+          if (powerUp.spawn > PowerUpspawnRate) {
             powerUp.spawn = Math.random()
           }
         }
