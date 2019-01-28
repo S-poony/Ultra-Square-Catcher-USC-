@@ -151,7 +151,7 @@
         ennemi.speed.x = direction(hero.x, ennemi.x, ennemi.limitation, norme)
         ennemi.spawn = spawn(ennemi)
 
-        if (ennemi.spawn == true) {
+        if (ennemi.spawn) {
           movementx(ennemi)
           movementy(ennemi)
           ennemi.limitation = score / ADAPTATION_ENNEMI
@@ -162,7 +162,7 @@
         thief.speed.x = direction(reward.x, thief.x, thief.limitation, thiefNorme)
         thief.spawn = spawn(thief)
 
-        if (thief.spawn == true) {
+        if (thief.spawn) {
           movementx(thief)
           movementy(thief)
           thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
@@ -206,7 +206,7 @@
             powerUp.spawn = Math.random()
           }
         }
-        if (ennemi.spawn == true) { //ennemy
+        if (ennemi.spawn) { //ennemy
           if (collision(ennemi, hero)) {
             score -= Math.round(score / 10)
             ennemi.x = canvas.width / 2
@@ -215,7 +215,7 @@
             hero.y = 1
           }
         }
-        if (thief.spawn == true) { //thief
+        if (thief.spawn) { //thief
           if (collision(thief, hero)) {
             thief.x = canvas.width / 2
             thief.y = canvas.height / 2
@@ -252,10 +252,10 @@
         factorisationdraw(hero)
         factorisationdraw(reward)
 
-        if (ennemi.spawn == true) {
+        if (ennemi.spawn) {
           factorisationdraw(ennemi)
         }
-        if (thief.spawn == true) {
+        if (thief.spawn) {
           factorisationdraw(thief)
         }
         if (powerUp.spawn > PowerUpspawnRate) {
