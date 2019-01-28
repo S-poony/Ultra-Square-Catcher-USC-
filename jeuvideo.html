@@ -35,7 +35,6 @@
       //variables
       score = 0
       var best = 0
-      var spawn = 0
       var powerUpSpeed = 0.3
       var lastTime = 0
       var PowerUpspawnRate = 0.8
@@ -49,7 +48,7 @@
       var ADAPTATION_THIEF = 750
       var ORIENTATION_NERF = 0.0005
 
-      var ennemi = {
+      ennemi = {
         x: canvas.width / 2,
         y: canvas.height / 2,
         width: 15 * ratio,
@@ -63,6 +62,9 @@
           y: 0,
         },
         limitation: 0,
+        color: 'red',
+        spawn: false,
+        spawnCondition: 10
       }
 
       var thief = {
@@ -78,7 +80,10 @@
           x: 0,
           y: 0,
         },
-        limitation: 0
+        limitation: 0,
+        color: '#ff6699',
+        spawn: false,
+        spawnCondition: 60
       }
 
       var hero = {
@@ -93,7 +98,8 @@
         acceleration: {
           x: 0,
           y: 0,
-        }
+        },
+        color: '#33FF66',
       }
 
       var reward = {
@@ -101,6 +107,7 @@
         y: 60,
         width: 20 * ratio,
         height: 20 * ratio,
+        color: '#0099FF'
       }
 
       var powerUp = {
@@ -108,7 +115,8 @@
         y: Math.random() * canvas.height,
         width: 10 * ratio,
         height: 10 * ratio,
-        speed: 0.3
+        color: 'cyan',
+        spawn: 0,
       }
 
       //movement
@@ -118,7 +126,10 @@
       function direction(target, ennemi, limitation, norme) {
         return (target - ennemi) * limitation / norme
       }
-      
+      function spawn(object) {
+        return score >= object.spawnCondition
+      }
+
       function update(currentTime) {//ici commence le temps réel
         var dt = currentTime - lastTime
         lastTime = currentTime
@@ -138,8 +149,9 @@
         var norme = distance(hero.y, hero.x, ennemi.y, ennemi.x)
         ennemi.speed.y = direction(hero.y, ennemi.y, ennemi.limitation, norme)
         ennemi.speed.x = direction(hero.x, ennemi.x, ennemi.limitation, norme)
+        ennemi.spawn = spawn(ennemi)
 
-        if (score >= 10) {
+        if (ennemi.spawn == true) {
           movementx(ennemi)
           movementy(ennemi)
           ennemi.limitation = score / ADAPTATION_ENNEMI
@@ -148,8 +160,9 @@
         var thiefNorme = distance(reward.y, reward.x, thief.y, thief.x)
         thief.speed.y = direction(reward.y, thief.y, thief.limitation, thiefNorme)
         thief.speed.x = direction(reward.x, thief.x, thief.limitation, thiefNorme)
+        thief.spawn = spawn(thief)
 
-        if (score >= 60) {
+        if (thief.spawn == true) {
           movementx(thief)
           movementy(thief)
           thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
@@ -189,11 +202,11 @@
           reward.x = Math.random() * (canvas.width - reward.width)
           reward.y = Math.random() * (canvas.height - reward.height)
 
-          if (spawn < PowerUpspawnRate) {
-            spawn = Math.random()
+          if (powerUp.spawn < PowerUpspawnRate) {
+            powerUp.spawn = Math.random()
           }
         }
-        if (score >= 10) { //ennemy
+        if (ennemi.spawn == true) { //ennemy
           if (collision(ennemi, hero)) {
             score -= Math.round(score / 10)
             ennemi.x = canvas.width / 2
@@ -202,7 +215,7 @@
             hero.y = 1
           }
         }
-        if (score >= 60) { //thief
+        if (thief.spawn == true) { //thief
           if (collision(thief, hero)) {
             thief.x = canvas.width / 2
             thief.y = canvas.height / 2
@@ -212,12 +225,12 @@
             reward.y = Math.random() * (canvas.height - reward.height)
           }
         }
-        if (spawn > PowerUpspawnRate) {
+        if (powerUp.spawn > PowerUpspawnRate) {
           if (collision(powerUp, hero)) {
             score += 5
             powerUp.x = Math.random() * (canvas.width - powerUp.width)
             powerUp.y = Math.random() * (canvas.height - powerUp.height)
-            spawn = Math.random()
+            powerUp.spawn = Math.random()
           }
         }
         if (score > best) { //best score
@@ -236,26 +249,17 @@
         ctx.fillStyle = '#000033'//dark blue
         ctx.fillRect(0, 0, canvas.width, canvas.height) // color background
 
-        ctx.fillStyle = 'black'
-        ctx.strokeRect(0, 0, canvas.width, canvas.height)
+        factorisationdraw(hero)
+        factorisationdraw(reward)
 
-        ctx.fillStyle = '#33FF66'//bright green
-        ctx.fillRect(hero.x, hero.y, hero.width, hero.height)
-
-        ctx.fillStyle = '#0099FF' //bright blue reward
-        ctx.fillRect(reward.x, reward.y, reward.width, reward.height)
-
-        if (score >= 10) { //ennemy
-          ctx.fillStyle = 'red'
-          ctx.fillRect(ennemi.x, ennemi.y, ennemi.width, ennemi.height) //ennemy
+        if (ennemi.spawn == true) {
+          factorisationdraw(ennemi)
         }
-        if (score >= 60) { //thief
-          ctx.fillStyle = '#ff6699' //pink
-          ctx.fillRect(thief.x, thief.y, thief.width, thief.height) //ennemy
+        if (thief.spawn == true) {
+          factorisationdraw(thief)
         }
-        if (spawn > PowerUpspawnRate) {
-          ctx.fillStyle = 'cyan'
-          ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height) //powerUp
+        if (powerUp.spawn > PowerUpspawnRate) {
+          factorisationdraw(powerUp)
         }
         ctx.fillStyle = 'white'
         ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
@@ -263,6 +267,10 @@
           ctx.fillText("best: " + best, 5 * ratio, canvas.height - 10 * ratio)
         }
 
+      }
+      function factorisationdraw(object) {
+        ctx.fillStyle = object.color
+        ctx.fillRect(object.x, object.y, object.width, object.height)
       }
 
       requestAnimationFrame(update)
