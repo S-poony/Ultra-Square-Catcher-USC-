@@ -134,13 +134,11 @@
         var dt = currentTime - lastTime
         lastTime = currentTime
 
-        function movementx(object) {
+        function movement(object) {
           object.speed.x += object.acceleration.x * dt
-          return object.x += object.speed.x * dt
-        }
-        function movementy(object) {
+          object.x += object.speed.x * dt
           object.speed.y += object.acceleration.y * dt
-          return object.y += object.speed.y * dt
+          object.y += object.speed.y * dt
         }
 
         dt = Math.min(dt, 400) //choses qui bougent
@@ -152,8 +150,7 @@
         ennemi.spawn = spawn(ennemi)
 
         if (ennemi.spawn) {
-          movementx(ennemi)
-          movementy(ennemi)
+          movement(ennemi)
           ennemi.limitation = score / ADAPTATION_ENNEMI
         }
         //thief
@@ -163,14 +160,12 @@
         thief.spawn = spawn(thief)
 
         if (thief.spawn) {
-          movementx(thief)
-          movementy(thief)
+          movement(thief)
           thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
         }
 
         //hero
-        movementx(hero)
-        movementy(hero)
+        movement(hero)
 
         if (hero.speed.x > SPEED_LIMIT) {
           hero.speed.x = SPEED_LIMIT
@@ -249,17 +244,17 @@
         ctx.fillStyle = '#000033'//dark blue
         ctx.fillRect(0, 0, canvas.width, canvas.height) // color background
 
-        factorisationdraw(hero)
-        factorisationdraw(reward)
+        drawSquare(hero)
+        drawSquare(reward)
 
         if (ennemi.spawn) {
-          factorisationdraw(ennemi)
+          drawSquare(ennemi)
         }
         if (thief.spawn) {
-          factorisationdraw(thief)
+          drawSquare(thief)
         }
         if (powerUp.spawn > PowerUpspawnRate) {
-          factorisationdraw(powerUp)
+          drawSquare(powerUp)
         }
         ctx.fillStyle = 'white'
         ctx.fillText("score: " + score, canvas.width / 2, 20 * ratio)
@@ -268,7 +263,7 @@
         }
 
       }
-      function factorisationdraw(object) {
+      function drawSquare(object) {
         ctx.fillStyle = object.color
         ctx.fillRect(object.x, object.y, object.width, object.height)
       }
