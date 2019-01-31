@@ -37,6 +37,7 @@
       var best = 0
       var lastTime = 0
       var PowerUpspawnRate = 0.8
+      pause = false
 
       //constants
       var ACCELERATION_MAX = 0.0035 * ratio
@@ -234,7 +235,9 @@
           PowerUpspawnRate = 0.8
         }
         draw()
-        requestAnimationFrame(update)
+        if (pause == false) {
+          requestAnimationFrame(update)
+        }
       }
 
       function draw() {
@@ -306,6 +309,13 @@
         if (event.key === "Shift") {
           hero.speed.x *= BRAKE
           hero.speed.y *= BRAKE
+        }
+        if (event.key === " ") {
+          pause = !pause
+          if (pause == false) {
+            lastTime = performance.now()
+            requestAnimationFrame(update)
+          }
         }
       })
     })()
