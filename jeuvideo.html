@@ -37,7 +37,8 @@
       var best = 0
       var lastTime = 0
       var PowerUpspawnRate = 0.8
-      pause = false
+      var pause = false
+      var stunBeginning = 0
 
       //constants
       var ACCELERATION_MAX = 0.0035 * ratio
@@ -47,6 +48,7 @@
       var ADAPTATION_ENNEMI = 270
       var ADAPTATION_THIEF = 750
       var ORIENTATION_NERF = 0.0005
+      var STUN_LENGTH = 300
 
       var ennemi = {
         x: canvas.width / 2,
@@ -162,19 +164,18 @@
 
         if (thief.spawn) {
           movement(thief)
-          thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
+          if (performance.now() - stunBeginning >= STUN_LENGTH) {
+            thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
+          }
+          else {
+            thief.limitation = 0
+          }
         }
 
         //hero
         movement(hero)
-
-        if (hero.speed.x > SPEED_LIMIT) {
-          hero.speed.x = SPEED_LIMIT
-        }
-        if (hero.speed.y > SPEED_LIMIT) {
-          hero.speed.y = SPEED_LIMIT
-        }
-
+        hero.speed.x = Math.min(hero.speed.x, SPEED_LIMIT)
+        hero.speed.y = Math.min(hero.speed.y, SPEED_LIMIT)
         hero.speed.x *= FRICTION
         hero.speed.y *= FRICTION
 
@@ -214,6 +215,7 @@
           if (collision(thief, hero)) {
             thief.x = canvas.width / 2
             thief.y = canvas.height / 2
+            stunBeginning = performance.now()
           }
           if (collision(thief, reward)) {
             randomSpawn(reward)
