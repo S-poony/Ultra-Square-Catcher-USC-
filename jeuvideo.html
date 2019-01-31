@@ -278,7 +278,14 @@
 
         return xin && yin
       }
-
+      function handleVisibilityChange() {
+        pause = document.hidden
+        if (pause == false) {
+            lastTime = performance.now()
+            requestAnimationFrame(update)
+          }
+      }
+      document.addEventListener("visibilitychange", handleVisibilityChange, false)
       window.addEventListener("deviceorientation", function (event) {
         var beta = event.beta
         var gamma = event.gamma
