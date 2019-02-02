@@ -157,7 +157,7 @@
 
         if (ennemi.spawn) {
           movement(ennemi)
-          ennemi.limitation = score / ADAPTATION_ENNEMI
+          ennemi.limitation = Math.min(score / ADAPTATION_ENNEMI, 0.65)
         }
         //thief
         orientation(thief, reward)
