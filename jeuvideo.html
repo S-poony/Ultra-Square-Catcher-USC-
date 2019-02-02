@@ -281,9 +281,11 @@
       function handleVisibilityChange() {
         pause = document.hidden
         if (pause == false) {
-            lastTime = performance.now()
-            requestAnimationFrame(update)
-          }
+          lastTime = performance.now()
+          requestAnimationFrame(update)
+          hero.acceleration.x = 0
+          hero.acceleration.y = 0
+        }
       }
       document.addEventListener("visibilitychange", handleVisibilityChange, false)
       window.addEventListener("deviceorientation", function (event) {
