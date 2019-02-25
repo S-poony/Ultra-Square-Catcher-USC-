@@ -164,7 +164,7 @@
 
         if (thief.spawn) {
           movement(thief)
-          if (performance.now() - stunBeginning >= STUN_LENGTH) {
+          if (currentTime - stunBeginning >= STUN_LENGTH) {
             thief.limitation = Math.max(0.1, distance(reward.y, reward.x, thief.y, thief.x) / ADAPTATION_THIEF)
           }
           else {
@@ -215,7 +215,7 @@
           if (collision(thief, hero)) {
             thief.x = canvas.width / 2
             thief.y = canvas.height / 2
-            stunBeginning = performance.now()
+            stunBeginning = currentTime
           }
           if (collision(thief, reward)) {
             randomSpawn(reward)
