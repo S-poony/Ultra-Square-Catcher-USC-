@@ -138,6 +138,10 @@
         object.x = Math.random() * (canvas.width - object.width)
         object.y = Math.random() * (canvas.height - object.height)
       }
+      function normalSpawn(object, spawnType) {
+        object.x = spawnType
+        object.y = spawnType
+      }
 
       function update(currentTime) {//ici commence le temps réel
         var dt = currentTime - lastTime
@@ -204,17 +208,14 @@
         }
         if (ennemi.spawn) { //ennemy
           if (collision(ennemi, hero)) {
-            score -= Math.round(Math.sqrt(score))-2
-            ennemi.x = canvas.width / 2
-            ennemi.y = canvas.height / 2
-            hero.x = 1
-            hero.y = 1
+            score -= Math.round(Math.sqrt(score)) - 2
+            normalSpawn(ennemi, canvas.width / 2)//only work if square canvas !
+            normalSpawn(hero,1)
           }
         }
         if (thief.spawn) { //thief
           if (collision(thief, hero)) {
-            thief.x = canvas.width / 2
-            thief.y = canvas.height / 2
+            normalSpawn(thief, canvas.width/2)//only work if square canvas !
             stunBeginning = currentTime
           }
           if (collision(thief, reward)) {
